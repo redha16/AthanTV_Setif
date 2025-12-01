@@ -1,1 +1,7 @@
 /tools/
+/local.properties
+/.gradle/
+/.idea/
+/build/
+/captures/
+/.externalNativeBuild/
