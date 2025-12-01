@@ -31,16 +31,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Force Project Resolution
-        run: ./gradlew projects
-
       - name: Build debug APK
-        # COMMANDE FINALE : Test avec le nom de module 'mobile'
-        run: ./gradlew :mobile:assembleDebug
+        # COMMANDE FINALE : Test avec le nom de module 'athantvsetif'
+        run: ./gradlew :athantvsetif:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: AthanTV
-          # Chemin corrigé pour le module 'mobile'
-          path: mobile/build/outputs/apk/debug/app-debug.apk
+          # Chemin de l'APK, en supposant que le vrai module s'appelle athantvsetif
+          path: athantvsetif/build/outputs/apk/debug/app-debug.apk
