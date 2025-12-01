@@ -4,6 +4,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  android.enableR8: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,14 +20,28 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+            
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # NOUVEAU : Forcer la résolution du projet (pour éviter l'erreur "project ':app' not found")
+      - name: Force Project Resolution
+        run: ./gradlew projects
+
       - name: Build debug APK
-        run: ./gradlew assembleDebug
+        # Retour à la commande correcte (confirmée par ./gradlew projects)
+        run: ./gradlew :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: AthanTV
+          # Chemin corrigé pour le module :app
           path: app/build/outputs/apk/debug/app-debug.apk
