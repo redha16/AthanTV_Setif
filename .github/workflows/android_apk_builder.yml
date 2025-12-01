@@ -4,6 +4,10 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  # AJOUT DE CETTE SECTION : Variable d'environnement pour activer la dernière version R8 (compilation)
+  android.enableR8: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +25,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build debug APK
-        run: ./gradlew :app:assembleDebug  # <-- C'EST LA CORRECTION
+        run: ./gradlew :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
