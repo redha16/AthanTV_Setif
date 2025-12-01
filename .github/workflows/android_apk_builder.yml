@@ -33,12 +33,12 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build debug APK
-        # CORRECTION FINALE A : Commande simplifiée (sans 'app:')
-        run: ./gradlew assembleDebug
+        # CORRECTION FINALE A : Commande avec le nom de module le plus probable
+        run: ./gradlew :androidApp:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: AthanTV
-          # CORRECTION FINALE B : Chemin de l'APK simplifié (sans 'app/')
-          path: build/outputs/apk/debug/app-debug.apk
+          # CORRECTION FINALE B : Chemin de l'APK avec le nom de module le plus probable
+          path: androidApp/build/outputs/apk/debug/app-debug.apk
