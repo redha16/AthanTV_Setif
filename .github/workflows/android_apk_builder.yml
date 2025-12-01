@@ -5,7 +5,6 @@ on:
   workflow_dispatch:
 
 env:
-  # Correction d'environnement (R8)
   android.enableR8: true
 
 jobs:
@@ -32,13 +31,17 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # NOUVEAU : Forcer la résolution du projet (pour éviter l'erreur "project ':app' not found")
+      - name: Force Project Resolution
+        run: ./gradlew projects
+
       - name: Build debug APK
-        # COMMANDE FINALE : compilation générique avec paramètre
-        run: ./gradlew assembleDebug -Pandroid.build.target=debug
+        # Retour à la commande correcte (confirmée par ./gradlew projects)
+        run: ./gradlew :app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: AthanTV
-          # Chemin de l'APK (sans 'app/')
-          path: build/outputs/apk/debug/app-debug.apk
+          # Chemin corrigé pour le module :app
+          path: app/build/outputs/apk/debug/app-debug.apk
