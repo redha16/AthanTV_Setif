@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "AthanTV_Project"
-include(":app")
+
